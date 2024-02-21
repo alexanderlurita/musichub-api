@@ -3,3 +3,4 @@ package-lock.json
 .env
 
 src/database/model_v1.0.erwin
+src/api.http
