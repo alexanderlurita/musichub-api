@@ -48,6 +48,7 @@ export class GenreModel {
         .del()
         .where('genre_id', id)
         .returning('*')
+
       return genre
     } catch {
       throw new Error('Unable to delete genre')

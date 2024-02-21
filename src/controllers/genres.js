@@ -50,8 +50,9 @@ export class GenreController {
       return res.status(400).json({ message: JSON.parse(result.error.message) })
     }
 
+    const { id } = req.params
+
     try {
-      const { id } = req.params
       const updatedGenre = await GenreModel.update({ id, input: result.data })
 
       res.json(updatedGenre)

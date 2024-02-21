@@ -6,6 +6,7 @@ const genreSchema = z.object({
       required_error: 'Genre name is required',
       invalid_type_error: 'Genre name must be a string',
     })
+    .trim()
     .min(3, { message: 'Must be 3 or more characters long' })
     .max(30, { message: 'Must be 30 or fewer characters long' }),
 })
