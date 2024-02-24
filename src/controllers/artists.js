@@ -4,6 +4,7 @@ import { validateArtist, validatePartialArtist } from '../schemas/artists.js'
 export class ArtistController {
   static async getAll(req, res) {
     const { role } = req.query
+
     try {
       const artists = await ArtistModel.getAll({ role })
       res.json(artists)
@@ -14,6 +15,7 @@ export class ArtistController {
 
   static async getById(req, res) {
     const { id } = req.params
+
     try {
       const artist = await ArtistModel.getById({ id })
       if (!artist) return res.status(404).json({ message: 'Artist not found' })

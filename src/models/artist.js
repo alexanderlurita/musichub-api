@@ -3,13 +3,13 @@ import pg from '../database/db.js'
 export class ArtistModel {
   static async getAll({ role }) {
     try {
+      const query = pg('artists').orderBy('artist_id', 'desc')
+
       if (role) {
-        return await pg('artists')
-          .whereRaw('lower(role) = ?', role.toLowerCase())
-          .orderBy('artist_id', 'desc')
+        query.whereRaw('lower(role) = ?', role.toLowerCase())
       }
 
-      const artists = await pg('artists').orderBy('artist_id', 'desc')
+      const artists = await query
       return artists
     } catch {
       throw new Error('Unable to fetch artists')
@@ -43,8 +43,7 @@ export class ArtistModel {
         .returning('*')
 
       return artist
-    } catch (e) {
-      console.log(e)
+    } catch {
       throw new Error('Unable to update artist')
     }
   }

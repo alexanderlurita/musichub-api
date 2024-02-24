@@ -3,7 +3,7 @@ import pg from '../database/db.js'
 export class GenreModel {
   static async getAll() {
     try {
-      const genres = await pg('genres')
+      const genres = await pg('genres').orderBy('genre_id', 'desc')
       return genres
     } catch {
       throw new Error('Unable to fetch genres')
