@@ -27,14 +27,16 @@ export class GenreController {
   }
 
   static async create(req, res) {
-    const result = validateGenre(req.body)
+    const validation = validateGenre(req.body)
 
-    if (!result.success) {
-      return res.status(400).json({ message: JSON.parse(result.error.message) })
+    if (!validation.success) {
+      return res
+        .status(400)
+        .json({ message: JSON.parse(validation.error.message) })
     }
 
     try {
-      const newGenre = await GenreModel.create({ input: result.data })
+      const newGenre = await GenreModel.create({ input: validation.data })
       res.status(201).json(newGenre)
     } catch {
       res
@@ -44,16 +46,21 @@ export class GenreController {
   }
 
   static async update(req, res) {
-    const result = validatePartialGenre(req.body)
+    const validation = validatePartialGenre(req.body)
 
-    if (!result.success) {
-      return res.status(400).json({ message: JSON.parse(result.error.message) })
+    if (!validation.success) {
+      return res
+        .status(400)
+        .json({ message: JSON.parse(validation.error.message) })
     }
 
     const { id } = req.params
 
     try {
-      const updatedGenre = await GenreModel.update({ id, input: result.data })
+      const updatedGenre = await GenreModel.update({
+        id,
+        input: validation.data,
+      })
 
       res.json(updatedGenre)
     } catch {

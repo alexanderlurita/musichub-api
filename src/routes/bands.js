@@ -7,9 +7,19 @@ const router = Router()
 
 router.get('/', BandController.getAll)
 router.get('/:id', BandController.getById)
-router.get('/:id/members', BandMemberController.getAll)
-router.get('/:id/genres', BandGenreController.getAll)
-
 router.post('/', BandController.create)
+router.patch('/:id', BandController.update)
+router.delete('/:id', BandController.delete)
+
+router.get('/:band_id/members', BandMemberController.getAll)
+router.get('/:band_id/members/:id', BandMemberController.getById)
+router.post('/:band_id/members', BandMemberController.create)
+router.patch('/:band_id/members/:id', BandMemberController.update)
+router.delete('/:band_id/members/:id', BandMemberController.delete)
+
+router.get('/:band_id/genres', BandGenreController.getAll)
+router.get('/:band_id/genres/:id', BandGenreController.getById)
+router.post('/:band_id/genres', BandGenreController.create)
+router.delete('/:band_id/genres/:id', BandGenreController.delete)
 
 export default router

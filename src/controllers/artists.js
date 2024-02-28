@@ -29,14 +29,16 @@ export class ArtistController {
   }
 
   static async create(req, res) {
-    const result = validateArtist(req.body)
+    const validation = validateArtist(req.body)
 
-    if (!result.success) {
-      return res.status(400).json({ message: JSON.parse(result.error.message) })
+    if (!validation.success) {
+      return res
+        .status(400)
+        .json({ message: JSON.parse(validation.error.message) })
     }
 
     try {
-      const newArtist = await ArtistModel.create({ input: result.data })
+      const newArtist = await ArtistModel.create({ input: validation.data })
       res.status(201).json(newArtist)
     } catch {
       res
@@ -46,16 +48,21 @@ export class ArtistController {
   }
 
   static async update(req, res) {
-    const result = validatePartialArtist(req.body)
+    const validation = validatePartialArtist(req.body)
 
-    if (!result.success) {
-      return res.status(400).json({ message: JSON.parse(result.error.message) })
+    if (!validation.success) {
+      return res
+        .status(400)
+        .json({ message: JSON.parse(validation.error.message) })
     }
 
     const { id } = req.params
 
     try {
-      const updatedArtist = await ArtistModel.update({ id, input: result.data })
+      const updatedArtist = await ArtistModel.update({
+        id,
+        input: validation.data,
+      })
       res.json(updatedArtist)
     } catch {
       res

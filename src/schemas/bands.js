@@ -14,37 +14,29 @@ const bandSchema = z.object({
     .trim()
     .min(50, { message: 'Must be 50 or more characters long' })
     .nullish(),
-  members: z
-    .array(
-      z
-        .number({
-          required_error: 'Artist ID is required',
-          invalid_type_error: 'Artist ID must be an integer',
-        })
-        .int({ message: 'Must be an integer' })
-        .positive({ message: 'Must be positive' }),
-      {
-        required_error: 'Band members is required',
-        invalid_type_error: 'Band members must be an array',
-      },
-    )
-    .min(2, { message: 'Must be 2 or more elements' }),
-  genres: z
-    .array(
-      z
-        .number({
-          required_error: 'Genre ID is required',
-          invalid_type_error: 'Genre ID must be an integer',
-        })
-        .int({ message: 'Must be an integer' })
-        .positive({ message: 'Must be positive' }),
-      {
-        invalid_type_error: 'Genres must be an array',
-      },
-    )
-    .optional(),
+  country_id: z
+    .number({
+      required_error: 'Country ID is required',
+      invalid_type_error: 'Country ID must be a number',
+    })
+    .int({ message: 'Must be an integer' })
+    .positive({ message: 'Must be positive' }),
+  formation_year: z
+    .number({
+      required_error: 'Formation year is required',
+      invalid_type_error: 'Formation year must be a number',
+    })
+    .int({ message: 'Must be an integer' })
+    .min(1900, { message: 'Must be at least 1900' })
+    .max(new Date().getFullYear(), {
+      message: 'Must be current year or earlier',
+    }),
 })
 
 export function validateBand(input) {
   return bandSchema.safeParse(input)
+}
+
+export function validatePartialBand(input) {
+  return bandSchema.partial().safeParse(input)
 }
