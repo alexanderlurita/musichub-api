@@ -76,7 +76,7 @@ export class ArtistController {
 
     try {
       const result = await ArtistModel.delete({ id })
-      if (!result) return res.status(404).json('Artist not found')
+      if (!result) return res.status(404).json({ message: 'Artist not found' })
 
       res.json(result)
     } catch {

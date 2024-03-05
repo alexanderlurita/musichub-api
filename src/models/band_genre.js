@@ -8,6 +8,7 @@ export class BandGenreModel {
         .from('band_genres')
         .innerJoin('genres', 'band_genres.genre_id', 'genres.genre_id')
         .where({ band_id })
+        .orderBy('band_genre_id', 'desc')
 
       return bandGenres
     } catch {
@@ -31,8 +32,8 @@ export class BandGenreModel {
 
   static async create({ input }) {
     try {
-      const [genre] = await pg('band_genres').insert(input).returning('*')
-      return genre
+      const [bandGenre] = await pg('band_genres').insert(input).returning('*')
+      return bandGenre
     } catch {
       throw new Error('Unable to create band genre')
     }

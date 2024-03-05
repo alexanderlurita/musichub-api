@@ -16,6 +16,7 @@ export class BandModel {
         .from('bands')
         .innerJoin('countries', 'bands.country_id', 'countries.country_id')
         .orderBy('band_id', 'desc')
+
       return bands
     } catch {
       throw new Error('Unable to fetch bands')
@@ -37,6 +38,7 @@ export class BandModel {
         .from('bands')
         .innerJoin('countries', 'bands.country_id', 'countries.country_id')
         .where('band_id', id)
+
       return band[0]
     } catch {
       throw new Error('Unable to fetch band by ID')

@@ -50,13 +50,32 @@ export class ArtistModel {
 
   static async delete({ id }) {
     try {
-      const [artist] = await pg('artists')
-        .del()
-        .where('artist_id', id)
-        .returning('*')
+      let result
 
-      return artist
-    } catch {
+      await pg.transaction(async (trx) => {
+        const artistGenres = await pg('artist_genres')
+          .transacting(trx)
+          .where('artist_id', id)
+          .del()
+          .returning('*')
+
+        const [artist] = await pg('artists')
+          .transacting(trx)
+          .where('artist_id', id)
+          .del()
+          .returning('*')
+
+        result = {
+          ...(artist !== undefined && { artist }),
+          ...(artistGenres?.length && { artistGenres }),
+        }
+
+        await trx.commit()
+      })
+
+      return Object.keys(result).length > 0 ? result : undefined
+    } catch (e) {
+      console.log(e)
       throw new Error('Unable to delete artist')
     }
   }
